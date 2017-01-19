@@ -5,30 +5,41 @@ use diesel;
 use diesel::prelude::*;
 use diesel::result::Error;
 
-use bcrypt::{DEFAULT_COST, hash, verify};
+use bcrypt::{DEFAULT_COST, hash};
 
 use database::db;
 
-#[derive(Serialize, Deserialize, Queryable, Insertable, Debug, Clone)]
+#[derive(Associations, Identifiable, Serialize, Deserialize, Queryable, Insertable, Debug, Clone)]
 #[table_name="users"]
+#[has_many(posts)]
 pub struct User {
     id: i32,
-    pub username: String,
-    pub email: String,
-    pub password: String,
+    username: String,
+    email: String,
+    password: String,
+}
+
+#[derive(Associations, Identifiable, Serialize, Deserialize, Queryable, Insertable, Debug, Clone)]
+#[belongs_to(User)]
+#[table_name="posts"]
+pub struct Post {
+    id: i32,
+    title: String,
+    body: String,
+    user_id: i32,
 }
 
 #[derive(Deserialize, Insertable)]
 #[table_name="users"]
 pub struct NewUser {
-    pub username: String,
-    pub email: String,
-    pub password: String,
+    username: String,
+    email: String,
+    password: String,
 }
 
 impl NewUser {
     pub fn insert(&mut self) -> bool {
-        let hashed = match hash(&self.password, DEFAULT_COST) {
+        match hash(&self.password, DEFAULT_COST) {
             Ok(h) => {
                 self.password = format!("{}",h);
             }
