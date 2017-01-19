@@ -7,6 +7,7 @@
 #[macro_use] extern crate diesel;
 extern crate dotenv;
 extern crate rocket;
+extern crate bcrypt;
 
 mod routes;
 mod models;
