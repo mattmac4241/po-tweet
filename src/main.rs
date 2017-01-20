@@ -15,5 +15,8 @@ mod database;
 mod schema;
 
 fn main() {
-    rocket::ignite().mount("/users", routes![routes::new, routes::get]).launch()
+    rocket::ignite()
+        .mount("/users/", routes![routes::new_user, routes::get_user])
+        .mount("/posts/", routes![routes::new_post, routes::get_post])
+        .launch();
 }
