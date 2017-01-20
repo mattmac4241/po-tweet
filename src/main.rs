@@ -16,7 +16,7 @@ mod schema;
 
 fn main() {
     rocket::ignite()
-        .mount("/users/", routes![routes::new_user, routes::get_user])
-        .mount("/posts/", routes![routes::new_post, routes::get_post])
+        .mount("/users/", routes![routes::users::new_user, routes::users::get_user])
+        .mount("/posts/", routes![routes::posts::new_post, routes::posts::get_post])
         .launch();
 }
