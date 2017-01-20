@@ -19,7 +19,7 @@ use routes::users::*;
 
 fn main() {
     rocket::ignite()
-        .mount("/users/", routes![new_user, get_user])
+        .mount("/users/", routes![new_user, get_user_by_id, get_user_by_username])
         .mount("/posts/", routes![new_post, get_post, delete_post])
         .launch();
 }

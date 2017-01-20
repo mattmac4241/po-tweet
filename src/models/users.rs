@@ -40,10 +40,10 @@ impl NewUser {
     }
 }
 
-pub fn get_user_by_id(_id: i32) -> Result<User, Error> {
+pub fn get_by_id(_id: i32) -> Result<User, Error> {
     users::table.find(_id).get_result::<User>(&db())
 }
 
-pub fn get_user_by_username(name: String) -> Result<User, Error> {
+pub fn get_by_username(name: String) -> Result<User, Error> {
     users::table.filter(users::username.eq(name)).first(&db())
 }
