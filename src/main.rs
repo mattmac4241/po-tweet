@@ -14,9 +14,12 @@ mod models;
 mod database;
 mod schema;
 
+use routes::posts::*;
+use routes::users::*;
+
 fn main() {
     rocket::ignite()
-        .mount("/users/", routes![routes::users::new_user, routes::users::get_user])
-        .mount("/posts/", routes![routes::posts::new_post, routes::posts::get_post])
+        .mount("/users/", routes![new_user, get_user])
+        .mount("/posts/", routes![new_post, get_post, delete_post])
         .launch();
 }

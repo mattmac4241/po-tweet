@@ -1,4 +1,4 @@
-use schema::{posts, users};
+use schema::{posts};
 
 use diesel;
 use diesel::prelude::*;
