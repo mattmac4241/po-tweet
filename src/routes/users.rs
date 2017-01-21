@@ -1,20 +1,7 @@
-extern crate rocket;
-extern crate serde_json;
-
 use rocket_contrib::JSON;
 
 use models::users::{User, NewUser, get_by_id, get_by_username};
 use routes::routes::*;
-
-#[post("/", data="<new_user>", format="application/json")]
-pub fn new_user(new_user: JSON<NewUser>) -> JSON<ResponseMessage> {
-    let mut user = new_user;
-    if user.insert() {
-        create_response_message("Ok".to_string(), None)
-    } else {
-        create_response_message("error".to_string(), Some("Failed to add user.".to_string()))
-    }
-}
 
 #[get("/<id>")]
 fn get_user_by_id(id: i32) -> JSON<ModelMessage<User>>  {

@@ -5,12 +5,15 @@ authors = ["mattmac4241 <mattmac4241@yahoo.com>"]
 
 [dependencies]
 bcrypt = "0.1"
-diesel = "0.9.0"
+chrono = { version = "0.2", features = ["serde"]}
+diesel = { version = "0.9.0", features = ["chrono"] }
 diesel_codegen = { version = "0.9.0", features = ["postgres"] }
 dotenv = "0.8.0"
+jsonwebtoken = "1"
 rocket = "0.1.5"
 rocket_codegen = "0.1.5"
 rust-crypto = "^0.2"
+rustc-serialize = "0.3"
 serde = "0.8"
 serde_derive = "0.8"
 serde_json = "0.8"

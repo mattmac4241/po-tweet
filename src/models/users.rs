@@ -12,9 +12,9 @@ use database::db;
 #[table_name="users"]
 #[has_many(posts)]
 pub struct User {
-    id: i32,
-    username: String,
-    email: String,
+    pub id: i32,
+    pub username: String,
+    pub email: String,
     password: String,
 }
 
@@ -28,15 +28,15 @@ pub struct NewUser {
 
 impl NewUser {
 
-    pub fn insert(&mut self) -> bool {
+    pub fn insert(&mut self) -> Option<User> {
         match hash(&self.password, DEFAULT_COST) {
-            Ok(h) => {
-                self.password = format!("{}",h);
-            }
-            Err(_) => return false
+            Ok(h) => { self.password = format!("{}",h) }
+            Err(_) => return None,
         };
-
-        diesel::insert(self).into(users::table).execute(&db()).is_ok()
+        match diesel::insert(self).into(users::table).get_result::<User>(&db()) {
+            Ok(u) => Some(u),
+            Err(_) => None
+        }
     }
 }
 

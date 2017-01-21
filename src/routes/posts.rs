@@ -1,6 +1,3 @@
-extern crate rocket;
-extern crate serde_json;
-
 use rocket_contrib::JSON;
 
 use models::posts::{Post, NewPost, get_post_by_id};
