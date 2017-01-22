@@ -13,7 +13,7 @@ pub struct Post {
     id: i32,
     title: String,
     body: String,
-    user_id: Option<i32>,
+    pub user_id: Option<i32>,
 }
 
 #[derive(Deserialize, Insertable)]
@@ -21,11 +21,12 @@ pub struct Post {
 pub struct NewPost {
     title: String,
     body: String,
-    user_id: i32,
+    user_id: Option<i32>,
 }
 
 impl NewPost {
-    pub fn insert(&self) -> bool {
+    pub fn insert(&mut self, user_id: i32) -> bool {
+        self.user_id = Some(user_id);
         diesel::insert(self).into(posts::table).execute(&db()).is_ok()
     }
 }

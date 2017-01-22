@@ -9,7 +9,7 @@ use diesel::result::Error;
 use diesel::prelude::*;
 use database::db;
 
-use jwt::{encode, Header, Algorithm};
+use jwt::{decode, encode, Header, Algorithm, TokenData};
 use jwt::errors;
 
 use std::env;
@@ -35,7 +35,7 @@ pub struct NewToken {
 
 #[derive(Debug, RustcEncodable, RustcDecodable)]
 pub struct JWT {
-    user_id: i32,
+    pub user_id: i32,
 }
 
 impl Token {
@@ -74,12 +74,20 @@ pub fn create_token(user_id: i32) -> Option<NewToken> {
 }
 
 //generate_token, creates the jwt key
-fn generate_token(_user_id: i32) -> Result<String, errors::Error> {
+pub fn generate_token(_user_id: i32) -> Result<String, errors::Error> {
     let key = env::var("SECRET_KEY");
     let jwt = JWT{
         user_id: _user_id,
     };
     encode(Header::default(), &jwt, key.unwrap().as_ref())
+}
+
+pub fn decode_token(token: String) -> Option<JWT> {
+    let key = env::var("SECRET_KEY");
+    match decode::<JWT>(&token, key.unwrap().as_ref(), Algorithm::HS256) {
+        Ok(c) => Some(c.claims),
+        Err(_) => None
+    }
 }
 
 fn sixty_days_from_now() -> NaiveDateTime {
