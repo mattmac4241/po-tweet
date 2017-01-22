@@ -36,6 +36,7 @@ pub struct NewToken {
 #[derive(Debug, RustcEncodable, RustcDecodable)]
 pub struct JWT {
     pub user_id: i32,
+    expires_at: i64,
 }
 
 impl Token {
@@ -69,7 +70,9 @@ pub fn create_token(user_id: i32) -> Option<NewToken> {
                 None
             }
         }
-        Err(_) => None
+        Err(_) =>{
+            None
+        }
     }
 }
 
@@ -78,6 +81,7 @@ pub fn generate_token(_user_id: i32) -> Result<String, errors::Error> {
     let key = env::var("SECRET_KEY");
     let jwt = JWT{
         user_id: _user_id,
+        expires_at: sixty_days_from_now().timestamp()
     };
     encode(Header::default(), &jwt, key.unwrap().as_ref())
 }

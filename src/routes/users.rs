@@ -1,6 +1,6 @@
 use rocket_contrib::JSON;
 
-use models::users::{User, NewUser, get_by_id, get_by_username};
+use models::users::{User, get_by_id, get_by_username};
 use routes::routes::*;
 
 #[get("/<id>")]

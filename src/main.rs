@@ -27,6 +27,6 @@ fn main() {
     rocket::ignite()
         .mount("/users/", routes![get_user_by_id, get_user_by_username])
         .mount("/posts/", routes![new_post, get_post, delete_post])
-        .mount("/auth/", routes![register])
+        .mount("/auth/", routes![register, login])
         .launch();
 }
